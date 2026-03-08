@@ -7,6 +7,7 @@ public class Enemy {
     protected int attackPower;
     protected int defense;
     protected int experienceAward;
+    protected Random random = new Random();
 
     public Enemy(String type, int health, int attackPower, int defense, int experienceAward) {
         this.type = type;
@@ -16,15 +17,16 @@ public class Enemy {
         this.experienceAward = experienceAward;
     }
 
+    // attack player
     public void attack(Player target) {
-        System.out.println(type + " attacks " + target);
+        int damage = Math.max(attackPower - target.getDefense(), 0);
+        System.out.println(type + " attacks " + target.getName() + " for " + damage + " damage.");
         target.takeDamage(attackPower);
     }
 
     public void takeDamage(int amount) {
         int damageTaken = Math.max(amount - defense, 0);
         health -= damageTaken;
-        System.out.println(type + " takes " + damageTaken + " damage.");
     }
 
     public boolean isAlive() {
@@ -42,6 +44,11 @@ public class Enemy {
     public String getType() {
         return type;
     }
+
+    public int getDefense() {
+    	return defense; 
+    }
+    public int getHealth() {
+    	return health; 
+    }
 }
-
-

@@ -23,28 +23,28 @@ public class Player {
         this.inventory = new ArrayList<>();
     }
 
+    // attack an enemy
     public void attack(Enemy target) {
-        System.out.println(name + " attacks " + target.getType());
+        int damage = Math.max(attackPower - target.getDefense(), 0);
+        System.out.println(name + " attacks " + target.getType() + " for " + damage + " damage.");
         target.takeDamage(attackPower);
     }
 
+    // take damage (just updates health, no prints here)
     public void takeDamage(int amount) {
         int damageTaken = Math.max(amount - defense, 0);
         health -= damageTaken;
-        System.out.println(name + " takes " + damageTaken + " damage.");
     }
 
     public void heal(int amount) {
         health = Math.min(health + amount, maxHealth);
-        System.out.println(name + " heals for " + amount);
+        System.out.println(name + " healed " + amount + " HP.");
     }
 
     public void gainExperience(int xp) {
         experience += xp;
         System.out.println(name + " gained " + xp + " XP.");
-        if (experience >= level * 100) {
-            levelUp();
-        }
+        if (experience >= level * 100) levelUp();
     }
 
     public void levelUp() {
@@ -63,4 +63,14 @@ public class Player {
     public void addItem(Item item) {
         inventory.add(item);
     }
+
+    // getters
+    public String getName() { return name; }
+    public int getHealth() { return health; }
+    public int getMaxHealth() { return maxHealth; }
+    public int getAttackPower() { return attackPower; }
+    public int getDefense() { return defense; }
+    public int getLevel() { return level; }
+    public int getExperience() { return experience; }
+    public List<Item> getInventory() { return inventory; }
 }
