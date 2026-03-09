@@ -15,20 +15,26 @@ public class CombatSystem {
             // enemy info
             System.out.println("Enemy: " + enemy.getType());
             System.out.println("Enemy Health: " + enemy.getHealth());
+            System.out.println("Enemy Defense: " + enemy.getDefense());
             System.out.println();
 
             // options
             System.out.println("1) Attack");
-            System.out.println("2) Heal");
+            System.out.println("2) Use Potion");
             System.out.print("> ");
 
-            int choice = scanner.nextInt();
+            String choice = scanner.nextLine().trim();
+            boolean turnUsed = false;
 
-            if (choice == 1) player.attack(enemy);  // attack
-            else if (choice == 2) player.heal(10);  // heal
-            else { System.out.println("Invalid choice."); continue; }
+            if (choice.equals("1")) {
+            	player.attack(enemy);  // attack
+            	turnUsed = true;
+            } else if (choice.equals("2")) {
+            	turnUsed = player.consumePotion();
+            	if (!turnUsed) { continue; }
+            } else { System.out.println("Invalid choice."); continue; }
 
-            if (enemy.isAlive()) enemy.attack(player); // enemy turn
+            if (enemy.isAlive() && turnUsed) enemy.attack(player); // enemy turn
 
             System.out.println(); // separate turns
         }
@@ -39,8 +45,12 @@ public class CombatSystem {
             player.gainExperience(enemy.getExperienceAward());
 
             Item loot = enemy.dropLoot();
-            player.addItem(loot);
-            System.out.println("You received: " + loot.getName() + "\n");
+            if (loot != null) {
+            	player.addItem(loot);
+            	System.out.println("You received: " + loot.getName() + "\n");
+            } else {
+            	System.out.println("Nothing of value dropped.");
+            }    
         }
     }
 }

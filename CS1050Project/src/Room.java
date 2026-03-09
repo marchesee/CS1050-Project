@@ -35,7 +35,7 @@ public class Room {
             enemyY = random.nextInt(height-2) + 1;
         } while (enemyX == playerX && enemyY == playerY);
 
-        enemy = new Enemy("Goblin", 40, 8, 2, 20);
+        enemy = new Enemy("Goblin", 40, 4, 2, 20);
         enemyAlive = true;
     }
 

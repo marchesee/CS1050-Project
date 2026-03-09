@@ -34,7 +34,17 @@ public class Enemy {
     }
 
     public Item dropLoot() {
-        return new Item("Gold Coin", "A shiny gold coin dropped by " + type);
+        int dropChance = random.nextInt(100);
+        
+        if (dropChance < 15) {
+        	return new Potion("Greater Health Potion", "Restores 30 HP when consumed.", 30);
+        } else if (dropChance < 20) {
+        	return new Weapon ("Iron Dagger", "A sharp blade, doused in goblin blood.", 5);
+        } else if (dropChance < 70) {
+        	return new Potion ("Health Potion", "Restores 15 HP when consumed.", 15);
+        } else {
+        	return null;
+        }
     }
 
     public int getExperienceAward() {

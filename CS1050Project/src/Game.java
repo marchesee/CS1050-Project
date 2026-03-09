@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Game {
 
     private Player player;
-    private Room room;
+    private Dungeon dungeon;
     private CombatSystem combat;
     private Scanner scanner;
 
@@ -11,18 +11,19 @@ public class Game {
         scanner = new Scanner(System.in);
         combat = new CombatSystem();
         player = new Player("Hero", 100, 10, 2);
-        room = new Room();  // generate first room
+        dungeon = new Dungeon();
     }
 
     public void start() {
         boolean running = true;
 
         while (running) {
-
-            room.drawRoom();   // draw current room
+        	Room currentRoom = dungeon.getCurrentRoom();
+        	
+            currentRoom.drawRoom();   // draw current room
             HUD.draw(player);  // always show player HUD
 
-            System.out.println("Move with W/A/S/D or Q to quit:");
+            System.out.println("Move with W/A/S/D, I to open inventory, or Q to quit:");
             System.out.print("> ");
             String input = scanner.nextLine().toUpperCase();
 
@@ -33,34 +34,79 @@ public class Game {
                 case "S": dy = 1; break;
                 case "A": dx = -1; break;
                 case "D": dx = 1; break;
+                case "I": openInventory(); continue;
                 case "Q": running = false; continue;
                 default: System.out.println("Invalid input"); continue;
             }
 
-            room.movePlayer(dx, dy);
+            currentRoom.movePlayer(dx, dy);
 
             // check if next to enemy
-            if (room.isNearEnemy()) {
-                combat.startCombat(player, room.getEnemy());
+            if (currentRoom.isNearEnemy()) {
+                combat.startCombat(player, currentRoom.getEnemy());
 
                 //remove enemy and spawn door if dead
-                if (!room.getEnemy().isAlive()) {
-                    room.enemyDefeated();
+                if (!currentRoom.getEnemy().isAlive()) {
+                    currentRoom.enemyDefeated();
                 }
             }
 
             // check if player reached doorway
-            if (room.reachedDoor()) {
+            if (currentRoom.reachedDoor()) {
                 System.out.println("You enter the next room!\n");
-                room = new Room();  // generate new room
+                dungeon.nextRoom();
             }
 
             if (!player.isAlive()) {
                 System.out.println("GAME OVER.");
                 running = false;
+                
+                
             }
         }
-
-        System.out.println("The End.");
-    }
+        
+    	System.out.println("The End.");
+      }
+        
+        private void openInventory() {
+        	if (player.getInventory().isEmpty()) {
+        		System.out.println("\nYour bag is empty. Press Enter to return to combat.");
+        		scanner.nextLine();
+        		return;
+        }
+        	
+        	boolean managing = true;
+        	while (managing) {
+        		System.out.println("\n--- INVENTORY ---");
+        		for (int i = 0; i < player.getInventory().size(); i++) {
+        			System.out.println((i + 1) + ") " + player.getInventory().get(i).getName() + " - " + player.getInventory().get(i).getDescription());
+        		}
+        		System.out.println("Type the number of the item you want to use, or press 'B' to go back.");
+        		System.out.print("> ");
+        		
+        		String inventoryInput = scanner.nextLine().trim().toUpperCase();
+        		
+        		if (inventoryInput.equals("B")) {
+        			managing = false;
+        			continue;
+        		}
+        		
+        		try {
+        			int choice = Integer.parseInt(inventoryInput) - 1;
+        			
+        			if (choice >= 0 && choice < player.getInventory().size()) {
+        				Item selectedItem = player.getInventory().get(choice);
+        				selectedItem.use(player);
+        				if (selectedItem instanceof Potion) {
+        					player.getInventory().remove(choice);
+        				}
+        				managing = false;
+        			} else {
+        				System.out.println("You don't have that many items. Enter a valid number.");
+        			}
+        		} catch (NumberFormatException e) {
+        			System.out.println("Please enter a valid number or 'B'.");
+        		}
+        	}
+       	}
 }
