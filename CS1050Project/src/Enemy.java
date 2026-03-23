@@ -23,6 +23,10 @@ public class Enemy {
         System.out.println(type + " attacks " + target.getName() + " for " + damage + " damage.");
         target.takeDamage(attackPower);
     }
+    
+    public int getAttackPower() {
+        return attackPower;
+    }
 
     public void takeDamage(int amount) {
         int damageTaken = Math.max(amount - defense, 0);
