@@ -1,5 +1,22 @@
+<<<<<<< HEAD
 /Golem.class
 /Skeleton.class
 /SpriteLoader.class
 /SpriteTester.class
 /SpriteLoader$SpriteLoader.class
+=======
+/BossEnemy.class
+/CombatSystem.class
+/Dungeon.class
+/Enemy.class
+/Game.class
+/HUD.class
+/Item.class
+/Main.class
+/Player.class
+/Potion.class
+/Room.class
+/Weapon.class
+/Golem.class
+/Skeleton.class
+>>>>>>> branch 'main' of https://github.com/marchesee/CS1050-Project.git

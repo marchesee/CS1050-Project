@@ -42,14 +42,15 @@ public class Enemy {
         System.out.println(type + " attacks " + target.getName() + " for " + damage + " damage.");
         target.takeDamage(attackPower);
     }
+    
+    public int getAttackPower() {
+        return attackPower;
+    }
 
     public void takeDamage(int amount) {
         health -= amount;
     }
     
-    public int getAttackPower() {
-        return attackPower;
-    }
     public boolean isAlive() {
         return health > 0;
     }
