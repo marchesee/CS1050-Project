@@ -35,7 +35,20 @@ public class Room {
             enemyY = random.nextInt(height-2) + 1;
         } while (enemyX == playerX && enemyY == playerY);
 
-        enemy = new Enemy("Goblin", 40, 4, 2, 20);
+        int enemyType = random.nextInt(3);
+
+        switch (enemyType) {
+            case 0:
+                enemy = new Enemy("Goblin", 40, 10, 2, 15, "sprites/goblin");
+                break;
+            case 1:
+                enemy = new Skeleton("Skeleton", 30, 15, 1, 20, "sprites/skeleton"); 
+                break;
+            case 2:
+                enemy = new Golem("Golem", 80, 5, 8, 40, "sprites/golem"); 
+                break;
+        }
+        
         enemyAlive = true;
     }
 
@@ -66,6 +79,11 @@ public class Room {
         return dx + dy == 1;
     }
 
+    public void setEnemy(Enemy enemy) {
+        this.enemy = enemy;
+        this.enemyAlive = true;
+    }
+    
     public Enemy getEnemy() { return enemy; }
 
     // called after combat ends

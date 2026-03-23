@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Player {
 
@@ -13,6 +14,10 @@ public class Player {
     private List<Item> inventory;
     private final int maxInventorySize = 10;
     private Weapon equippedWeapon;
+    private Random random = new Random();
+    private boolean isDefending = false;
+    private int shatteredTurns = 0;
+    
 
     public Player(String name, int maxHealth, int attackPower, int defense) {
         this.name = name;
@@ -27,15 +32,50 @@ public class Player {
     }
 
     // attack an enemy
-    public void attack(Enemy target) {
+    public void attack(Enemy target, int stanceChoice) {
         int weaponDamage = (equippedWeapon != null) ? equippedWeapon.getAttackDamage() : 0;
-        int totalAttack = attackPower + weaponDamage;
-    	int damage = Math.max(totalAttack - target.getDefense(), 0);
-    	System.out.println("Damage reduced by " + target.getDefense() + " (Enemy DEF).");
-        System.out.println(name + " attacks " + target.getType() + " for " + damage + " damage.");
-        target.takeDamage(damage);
+        int baseAttack = attackPower + weaponDamage;
+        
+        int totalAttack = baseAttack;
+        int effectiveDefense = target.getDefense();
+        int hitChance = 100;
+        String stanceName = "Standard";
+
+        if (stanceChoice == 2) { 
+            totalAttack = (int)(baseAttack * 1.5); 
+            hitChance = 60;                        
+            stanceName = "Heavy";
+            
+            if (random.nextInt(100) < 10) { 
+                totalAttack = totalAttack * 2; 
+                stanceName = "Devastating Heavy"; 
+                System.out.println("\n*** CRITICAL HIT! You find a vital weak point! ***");
+            }
+        } else if (stanceChoice == 3) { 
+            totalAttack = (int)(baseAttack * 0.8); 
+            effectiveDefense = effectiveDefense / 2; 
+            stanceName = "Precise";
+        }
+
+        System.out.println("\n" + name + " readies a " + stanceName + " strike...");
+
+        if (random.nextInt(100) >= hitChance) {
+            System.out.println(name + " swung wide! The attack missed entirely.");
+            return; 
+        }
+
+        int damage = Math.max(totalAttack - effectiveDefense, 0);
+        System.out.println("Damage reduced by " + effectiveDefense + " (Enemy DEF).");
+        System.out.println(name + " hits " + target.getType() + " for " + damage + " damage.");
+        
+        target.takeDamage(damage); 
     }
 
+    public void setDefending(boolean defending) {
+    	this.isDefending = defending;
+    }
+    
+    
     // take damage (just updates health, no prints here)
     public void takeDamage(int amount) {
         int damageTaken = Math.max(amount - defense, 0);
@@ -47,6 +87,20 @@ public class Player {
         System.out.println(name + " healed " + amount + " HP.");
     }
 
+    public void shatterDefense(int turns) {
+    	this.shatteredTurns = turns;
+    	System.out.println("\n!!! " + name + "'s armor is SHATTERED! Defense reduced to 0 for " + turns + " turns! !!!");
+    }
+    
+    public void updateStatusEffects() {
+    	if (shatteredTurns > 0) {
+    		shatteredTurns--;
+    		if (shatteredTurns == 0) {
+    			System.out.println("\n" + name + "'s armor recovers! Defense restored.");
+    		}
+    	}
+    }
+    
     public void gainExperience(int xp) {
         experience += xp;
         System.out.println(name + " gained " + xp + " XP.");
@@ -104,10 +158,13 @@ public class Player {
     public int getHealth() { return health; }
     public int getMaxHealth() { return maxHealth; }
     public int getAttackPower() { return attackPower; }
-    public int getDefense() { return defense; }
+    public int getDefense() { if (shatteredTurns > 0) { return 0; } if (isDefending) { return defense * 2; } return defense; }
     public int getLevel() { return level; }
     public int getExperience() { return experience; }
     public Weapon getEquippedWeapon() { return equippedWeapon; }
     public List<Item> getInventory() { return inventory; }
+    public int getShatteredTurns() { return shatteredTurns; }
     public boolean isAlive() { return health > 0; }
+    public boolean isDefending() { return isDefending; }
+    public boolean isShattered() { return shatteredTurns > 0; }
 }

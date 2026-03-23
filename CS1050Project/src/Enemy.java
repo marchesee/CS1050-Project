@@ -8,15 +8,34 @@ public class Enemy {
     protected int defense;
     protected int experienceAward;
     protected Random random = new Random();
+    protected String spriteBase;
+    protected String spriteAttack;
+    protected String spriteHurt;
+    protected String spriteDead;
+    protected String currentState;
 
-    public Enemy(String type, int health, int attackPower, int defense, int experienceAward) {
+    public Enemy(String type, int health, int attackPower, int defense, int experienceAward, String spritePrefix) {
         this.type = type;
         this.health = health;
         this.attackPower = attackPower;
         this.defense = defense;
         this.experienceAward = experienceAward;
+        
+        this.currentState = "base";
     }
 
+    public void setState(String state) {
+        this.currentState = state;
+    }
+    
+    public void drawSprite() {
+        switch (currentState) {
+            case "attack": System.out.println(spriteAttack); break;
+            case "hurt":   System.out.println(spriteHurt); break;
+            case "dead":   System.out.println(spriteDead); break;
+            default:       System.out.println(spriteBase); break;
+        }
+    }
     // attack player
     public void attack(Player target) {
         int damage = Math.max(attackPower - target.getDefense(), 0);
@@ -25,10 +44,12 @@ public class Enemy {
     }
 
     public void takeDamage(int amount) {
-        int damageTaken = Math.max(amount - defense, 0);
-        health -= damageTaken;
+        health -= amount;
     }
-
+    
+    public int getAttackPower() {
+        return attackPower;
+    }
     public boolean isAlive() {
         return health > 0;
     }

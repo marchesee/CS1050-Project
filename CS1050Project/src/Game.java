@@ -48,6 +48,12 @@ public class Game {
                 //remove enemy and spawn door if dead
                 if (!currentRoom.getEnemy().isAlive()) {
                     currentRoom.enemyDefeated();
+                }	
+                	if (currentRoom.getEnemy().getType().equals("Ancient Dragon")) {
+                    	System.out.println("\nWith a final, earth-shattering roar, the Ancient Dragon collapses.");
+                    	System.out.println("You have cleared the dungeon. You win!");
+                    	running = false;
+                    	continue;
                 }
             }
 

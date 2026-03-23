@@ -21,14 +21,13 @@ public class Dungeon {
 
         currentRoomIndex++;
 
-        if (currentRoomIndex >= rooms.size()) {
-            if (rooms.size() < maxRooms) {
-            	rooms.add(new Room());
-            } else {
-            	// End of dungeon
-            	// Something after the dungeon?
-            	System.out.println("You have completed the dungeon! End your journey here or advance into the unknown...");
-            }
+        if (currentRoomIndex == maxRooms - 1) {
+            Room finalRoom = new Room();
+            finalRoom.setEnemy(new BossEnemy("Ancient Dragon", 150, 20, 5, 500, "sprites/dragon"));
+            rooms.add(finalRoom);
+            System.out.println("\nAn intense heat radiates from the door ahead...");
+        } else if (currentRoomIndex < maxRooms) {
+            rooms.add(new Room());
         }
     }
 }
