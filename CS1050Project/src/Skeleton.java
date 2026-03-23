@@ -20,10 +20,8 @@ public class Skeleton extends Enemy {
                 revived = true;
                 System.out.println("\n*** The Skeleton's bones rattle and reassemble! ***");
                 
-                // Health is protected, modify it directly
                 health = 20; 
                 
-                // Force the visual state back from 'dead' to 'base'
                 setState("base"); 
             }
         }

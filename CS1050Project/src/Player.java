@@ -76,7 +76,6 @@ public class Player {
     }
     
     
-    // take damage (just updates health, no prints here)
     public void takeDamage(int amount) {
         int damageTaken = Math.max(amount - defense, 0);
         health -= damageTaken;
