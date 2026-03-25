@@ -58,6 +58,15 @@ public class Game {
                 	HUD.clearScreen();
                 	currentEnemy.setState("dead");
                     currentEnemy.drawSprite();
+                    
+                    Item droppedLoot = currentEnemy.dropLoot(); // Replace with your actual method
+                    if (droppedLoot != null) {
+                        System.out.println("The enemy dropped: " + droppedLoot.getName());
+                        player.getInventory().add(droppedLoot);
+                    }
+                    
+                    
+                    
                     currentRoom.enemyDefeated();
                 }	
                 	if (currentEnemy.getType().equalsIgnoreCase("Ancient Dragon") || currentEnemy instanceof BossEnemy){
