@@ -16,8 +16,15 @@ public class Game {
 
     public void start() {
         boolean running = true;
+        boolean isFirstTurn = true;
 
         while (running) {
+        	if (!isFirstTurn) {
+        		HUD.clearScreen();
+        	} else {
+        		isFirstTurn = false;
+        	}
+        	
         	Room currentRoom = dungeon.getCurrentRoom();
         	
             currentRoom.drawRoom();   // draw current room
@@ -42,16 +49,23 @@ public class Game {
             currentRoom.movePlayer(dx, dy);
 
             // check if next to enemy
-            if (currentRoom.isNearEnemy()) {
-                combat.startCombat(player, currentRoom.getEnemy());
+            if (currentRoom.isNearEnemy()) {  
+                Enemy currentEnemy = currentRoom.getEnemy();
+                combat.startCombat(player, currentEnemy);
 
                 //remove enemy and spawn door if dead
-                if (!currentRoom.getEnemy().isAlive()) {
-                    currentRoom.enemyDefeated();
+                if (!currentEnemy.isAlive()) {
+                	HUD.clearScreen();
+                	currentEnemy.setState("dead");
+                    currentEnemy.drawSprite();
                 }	
-                	if (currentRoom.getEnemy().getType().equals("Ancient Dragon")) {
+                	if (currentEnemy.getType().equalsIgnoreCase("Ancient Dragon") || currentEnemy instanceof BossEnemy){
                     	System.out.println("\nWith a final, earth-shattering roar, the Ancient Dragon collapses.");
                     	System.out.println("You have cleared the dungeon. You win!");
+                    	
+                    	System.out.println("\nPress ENTER to exit the dungeon...");
+                        scanner.nextLine();
+                    	
                     	running = false;
                     	continue;
                 }

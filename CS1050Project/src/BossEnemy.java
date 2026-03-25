@@ -5,7 +5,7 @@ public class BossEnemy extends Enemy {
 
     public BossEnemy(String type, int health, int attackPower, int defense, int experienceAward, String spritePrefix) {
         super(type, health, attackPower, defense, experienceAward, spritePrefix);
-        this.ultimateCooldown = 2; // number of normal attacks before it can charge
+        this.ultimateCooldown = 3; // number of normal attacks before it can charge
         this.isCharging = false;
     }
 

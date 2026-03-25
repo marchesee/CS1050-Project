@@ -2,7 +2,6 @@ public class Golem extends Enemy {
 
     private boolean canAttack;
 
-    // Added spritePrefix to the constructor
     public Golem(String type, int health, int attackPower, int defense, int experienceAward, String spritePrefix) {
         super(type, health, attackPower, defense, experienceAward, spritePrefix);
         this.canAttack = false; 

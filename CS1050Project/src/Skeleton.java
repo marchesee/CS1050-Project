@@ -3,9 +3,8 @@ import java.util.Random;
 public class Skeleton extends Enemy {
 
     private boolean revived;
-    private Random random = new Random(); // Instantiate once at the class level
+    private Random random = new Random(); 
 
-    // Added spritePrefix to the constructor
     public Skeleton(String type, int health, int attackPower, int defense, int experienceAward, String spritePrefix) {
         super(type, health, attackPower, defense, experienceAward, spritePrefix);
         this.revived = false;

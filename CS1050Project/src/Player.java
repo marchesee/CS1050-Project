@@ -21,14 +21,19 @@ public class Player {
 
     public Player(String name, int maxHealth, int attackPower, int defense) {
         this.name = name;
-        this.maxHealth = maxHealth;
-        this.health = maxHealth;
-        this.attackPower = attackPower;
-        this.defense = defense;
+        this.maxHealth = 100;
+        this.health = 100;
+        this.attackPower = 15;
+        this.defense = 5;
         this.level = 1;
         this.experience = 0;
         this.inventory = new ArrayList<>();
         this.equippedWeapon = null;
+        
+        // Starter Pack
+        this.inventory.add(new Potion("Starter Health Potion", "A starter potion", 30));
+        this.inventory.add(new Potion("Starter Health Potion", "A starter potion", 30));
+        this.inventory.add(new Potion("Starter Health Potion", "A starter potion", 30));
     }
 
     // attack an enemy

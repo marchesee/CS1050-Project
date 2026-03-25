@@ -8,10 +8,6 @@ public class Enemy {
     protected int defense;
     protected int experienceAward;
     protected Random random = new Random();
-    protected String spriteBase;
-    protected String spriteAttack;
-    protected String spriteHurt;
-    protected String spriteDead;
     protected String currentState;
 
     public Enemy(String type, int health, int attackPower, int defense, int experienceAward, String spritePrefix) {
@@ -29,13 +25,8 @@ public class Enemy {
     }
     
     public void drawSprite() {
-        switch (currentState) {
-            case "attack": System.out.println(spriteAttack); break;
-            case "hurt":   System.out.println(spriteHurt); break;
-            case "dead":   System.out.println(spriteDead); break;
-            default:       System.out.println(spriteBase); break;
+        System.out.println(SpriteLibrary.get(this.type, this.currentState));
         }
-    }
     // attack player
     public void attack(Player target) {
         int damage = Math.max(attackPower - target.getDefense(), 0);
@@ -60,9 +51,9 @@ public class Enemy {
         
         if (dropChance < 15) {
         	return new Potion("Greater Health Potion", "Restores 30 HP when consumed.", 30);
-        } else if (dropChance < 20) {
+        } else if (dropChance < 30) {
         	return new Weapon ("Iron Dagger", "A sharp blade, doused in goblin blood.", 5);
-        } else if (dropChance < 70) {
+        } else if (dropChance < 90) {
         	return new Potion ("Health Potion", "Restores 15 HP when consumed.", 15);
         } else {
         	return null;

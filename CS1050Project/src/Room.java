@@ -39,13 +39,13 @@ public class Room {
 
         switch (enemyType) {
             case 0:
-                enemy = new Enemy("Goblin", 40, 10, 2, 15, "sprites/goblin");
+                enemy = new Enemy("Goblin", 30, 8, 2, 15, "sprites/goblin");
                 break;
             case 1:
-                enemy = new Skeleton("Skeleton", 30, 15, 1, 20, "sprites/skeleton"); 
+                enemy = new Skeleton("Skeleton", 40, 12, 1, 20, "sprites/skeleton"); 
                 break;
             case 2:
-                enemy = new Golem("Golem", 80, 5, 8, 40, "sprites/golem"); 
+                enemy = new Golem("Golem", 70, 5, 8, 40, "sprites/golem"); 
                 break;
         }
         

@@ -91,7 +91,6 @@ public void startCombat(Player player, Enemy enemy) {
                 HUD.clearScreen();
                 enemy.setState("attack");
                 enemy.drawSprite();
-                System.out.println("\n>>> The " + enemy.getType() + " strikes back! <<<");
                 
                 enemy.attack(player);
                 
