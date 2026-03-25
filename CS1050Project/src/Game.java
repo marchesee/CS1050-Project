@@ -58,6 +58,7 @@ public class Game {
                 	HUD.clearScreen();
                 	currentEnemy.setState("dead");
                     currentEnemy.drawSprite();
+                    currentRoom.enemyDefeated();
                 }	
                 	if (currentEnemy.getType().equalsIgnoreCase("Ancient Dragon") || currentEnemy instanceof BossEnemy){
                     	System.out.println("\nWith a final, earth-shattering roar, the Ancient Dragon collapses.");
